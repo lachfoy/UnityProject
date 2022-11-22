@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class FireWand : Weapon
 {
+    [SerializeField] private int _numberOfShots = 3;
+
     protected override void SetWeaponStats()
     {
-        _amount = 1;
+        _amount = 3;
         _weaponCooldown = 1.3f;
-        _weaponPerShotCooldown = 0.1f;
+        _weaponPerShotCooldown = 0.4f;
     }
 
     protected override void WeaponShoot()
     {
-        ProjectileManager.Instance.CreateNewFireProjectile(transform.position);
-        ProjectileManager.Instance.CreateNewFireProjectile(transform.position);
-        ProjectileManager.Instance.CreateNewFireProjectile(transform.position);
+        for (int i = 0; i < _numberOfShots; i++)
+        {
+            ProjectileManager.Instance.CreateNewFireProjectile(transform.position);
+        }
     }
 }

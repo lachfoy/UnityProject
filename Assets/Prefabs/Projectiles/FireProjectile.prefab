@@ -119,6 +119,9 @@ MonoBehaviour:
   maxDamage: 0
   hitFXPrefab: {fileID: 1565131961624017469, guid: 9fb15ff235fc6a740869971fe830dd1e, type: 3}
   hitSound: {fileID: 8300000, guid: 41351c18426dbcf4fa19964e08ced8bf, type: 3}
+  _dealsSplashDamage: 1
+  _splashDamageRange: 2
+  _splashDamage: 7
 --- !u!199 &3223095355357865449
 ParticleSystemRenderer:
   serializedVersion: 6

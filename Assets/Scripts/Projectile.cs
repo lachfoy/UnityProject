@@ -12,6 +12,10 @@ public class Projectile : MonoBehaviour
     public GameObject hitFXPrefab;
     public AudioClip hitSound;
 
+    [SerializeField] private bool _dealsSplashDamage;
+    [SerializeField] private float _splashDamageRange;
+    [SerializeField] private int _splashDamage;
+    
     private void Start()
     {
         _damage = Random.Range(minDamage, maxDamage);
@@ -52,6 +56,21 @@ public class Projectile : MonoBehaviour
             break;
         }
 
+        if (_dealsSplashDamage)
+        {
+            List<GameObject> enemiesInRange = EnemyManager.Instance.GetEnemiesInRange(transform.position, _splashDamageRange);
+            if (enemiesInRange.Count > 0)
+            {
+                foreach (GameObject enemy in enemiesInRange)
+                {
+                    // deal splash damage
+                    object[] args = new object[2];
+                    args[0] = _splashDamage;
+                    args[1] = false; // splash damage cannot crit
+                    enemy.gameObject.SendMessage("OnTakeDamage", args);
+                }
+            }
+        }
 
         if (hitFXPrefab)
         {

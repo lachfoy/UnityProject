@@ -24,7 +24,7 @@ public class LightningArc : MonoBehaviour
 
             GetComponent<LineRenderer>().material.mainTextureOffset = textureOffset;
 
-            yield return new WaitForSeconds(0.05f); // animate every .1 seconds
+            yield return new WaitForSeconds(0.05f); // animate every .05 seconds
         }
 
     }

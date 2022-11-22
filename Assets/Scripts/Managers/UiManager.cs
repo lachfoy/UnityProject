@@ -9,6 +9,12 @@ public class UiManager : MonoBehaviour
     public Color damageNumberColor = new Color(1.0f, 0.0f, 0.0f);
     public Color healNumberColor = new Color(0.0f, 1.0f, 0.0f);
     public GameObject youDiedText;
+    [SerializeField] private GameObject _killCounterText;
+
+    private void Start()
+    {
+        StartCoroutine(UpdateKillCounterText());
+    }
 
     public void AddDamageNumber(Vector3 position, int amount, bool isCrit)
     {
@@ -54,7 +60,15 @@ public class UiManager : MonoBehaviour
             youDiedText.GetComponent<RectTransform>().localScale = s;
             yield return null;
         }
+    }
 
+    IEnumerator UpdateKillCounterText()
+    {
+        for(; ; )
+        {
+            _killCounterText.GetComponent<Text>().text = EnemyManager.Instance.EnemiesKilled.ToString();
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     // singleton

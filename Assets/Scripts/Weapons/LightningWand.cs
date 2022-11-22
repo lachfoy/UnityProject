@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class LightningWand : Weapon
 {
-    public int damagePerHit = 20;
-    public int numberOfArcs = 10;
+    public int damagePerHit = 50;
+    public int numberOfArcs = 6;
     public GameObject lightningArcPrefab;
     public GameObject lightningHitPrefab;
 
@@ -17,8 +17,8 @@ public class LightningWand : Weapon
 
     protected override void SetWeaponStats()
     {
-        _amount = 1;
-        _weaponCooldown = 0.6f;
+        _amount = 2;
+        _weaponCooldown = 1.6f;
         _weaponPerShotCooldown = 0.1f;
     }
 

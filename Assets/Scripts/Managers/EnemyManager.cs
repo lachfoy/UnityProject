@@ -7,26 +7,33 @@ public class EnemyManager : MonoBehaviour
     [SerializeField] private List<GameObject> _enemyPrefabs;
     [SerializeField] private List<GameObject> _enemies;
     private Transform _playerTransform;
-
-    public List<GameObject> Enemies { get; }
+    private int _enemiesKilled = 0;
+    public int EnemiesKilled => _enemiesKilled;
+    
 
     private void Start()
     {
         _playerTransform = GameObject.Find("Player").transform;
     }
 
-    public List<GameObject> GetEnemiesInPlayerRange()
+    public List<GameObject> GetEnemiesInRange(Vector3 position, float range)
     {
         List<GameObject> enemiesInRange = new List<GameObject>();
         foreach (GameObject enemy in _enemies)
         {
-            if ((enemy.transform.position - _playerTransform.position).magnitude < _playerTransform.GetComponent<Player>().attackRange)
+            if ((enemy.transform.position - position).magnitude < range)
             {
                 enemiesInRange.Add(enemy);
             }
 
         }
+
         return enemiesInRange;
+    }
+
+    public List<GameObject> GetEnemiesInPlayerRange()
+    {
+        return GetEnemiesInRange(_playerTransform.position, _playerTransform.GetComponent<Player>().attackRange);
     }
 
     // MAKE ADDING NEW ENEMIES GENERIC!!! PLES
@@ -48,6 +55,7 @@ public class EnemyManager : MonoBehaviour
     public void RemoveEnemy(GameObject enemy)
     {
         _enemies.Remove(enemy);
+        _enemiesKilled++;
         Destroy(enemy);
     }
 
