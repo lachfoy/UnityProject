@@ -1,0 +1,18 @@
+open game art artist credits
+
+// textures
+Dungeon Crawl 32x32 tiles https://opengameart.org/content/dungeon-crawl-32x32-tiles -- CC0 -- by multiple artists
+Dog Walk Sprite and Bone https://opengameart.org/content/dog-walk-sprite-and-bone -- CC0 -- by kirard // not used
+Particle Effects https://opengameart.org/content/particle-effects -- CC-BY 3.0, CC-BY-SA 3.0 -- by hc // not used
+8x8Uithings.png https://opengameart.org/content/8x8-uianimalsitems -- CC0 -- by Min
+
+// normal map gen
+https://cpetry.github.io/NormalMap-Online/
+
+// fonts
+PublicPixel https://opengameart.org/content/public-pixel-font -- CC0 -- by GGBot
+
+// sound
+https://opengameart.org/content/monster-sound-effects-pack
+https://opengameart.org/content/large-monster
+

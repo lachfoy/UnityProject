@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 98f44b180f4086449914f07b28f881d2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _shootSound: {fileID: 8300000, guid: caaffbc1b2cbc724aad5a5cfe73d36f7, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

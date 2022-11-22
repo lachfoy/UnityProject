@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 80d2460d6af6f7644b622a0d1e1b21a2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _shootSound: {fileID: 8300000, guid: f67c9a9304bc86948a4b9559293b1b61, type: 3}
+  - lightningArcPrefab: {fileID: 5685936095803323387, guid: 403d16d6994a2b944905817a8549ea44, type: 3}
+  - lightningHitPrefab: {fileID: 1565131961624017469, guid: 7c6da6ed14c21e744893421775284dc6, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
