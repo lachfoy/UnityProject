@@ -16,7 +16,7 @@ public class CameraScript : MonoBehaviour
     {
         if (playerTransform)
         {
-            transform.position = new Vector3(playerTransform.position.x, playerTransform.position.y + 8f, playerTransform.position.z - 12f);
+            transform.position = new Vector3(playerTransform.position.x, playerTransform.position.y + 9.5f, playerTransform.position.z - 15f);
             //transform.rotation = Quaternion.LookRotation(playerTransform.forward, playerTransform.up);
             transform.LookAt(playerTransform);
         }

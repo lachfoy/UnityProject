@@ -5,43 +5,48 @@ using UnityEditor;
 
 public class EnemyFollowSpawner : MonoBehaviour
 {
-    public float spawnRectangle = 23f;
-    public float playerSafeRectangle = 12f;
-    public int numberOfEnemies = 10;
-    public float spawnFrequency = 1.0f;
+    [SerializeField] private float _enemySpawnExtents = 23f;
+    public float EnemySpawnExtents => _enemySpawnExtents;
+    [SerializeField] private Vector2 _playerSafeExtents = new Vector2(9f, 9f);
+    public Vector2 PlayerSafeExtents => new Vector2(_playerSafeExtents.x + _playerTransform.position.x, _playerSafeExtents.y + _playerTransform.position.z);
+
+    [SerializeField] private int _numberOfEnemies = 10;
+    [SerializeField] private float _spawnFrequency = 1.0f;
     private Transform _playerTransform;
+    [SerializeField] private int _potentialSpawnBufferSize = 20;
+    private List<Vector2> _potentialSpawnLocations;
+    [SerializeField] private float _potentialSpawnRefreshFrequency = 1.0f;
 
     void Start()
     {
         _playerTransform = GameObject.Find("Player").transform;
-
+        _potentialSpawnLocations = new List<Vector2>();
+        StartCoroutine(GeneratePotentialSpawnLocations());
         StartCoroutine(SpawnEnemies());
     }
 
-    Vector2 GetSpawnPoint()
+    IEnumerator GeneratePotentialSpawnLocations()
     {
-        Vector2 pointOnEdgeOfCircle = Random.insideUnitCircle.normalized * playerSafeRectangle;
-        float extendSpawnPointAmount = Random.Range(0f, 2f);
-        Vector2 spawnPoint = pointOnEdgeOfCircle;// * extendSpawnPointAmount;
-        spawnPoint += new Vector2(_playerTransform.position.x, _playerTransform.position.z); // offset by the player's position
-
-        bool yippee = false;
-        for (int i = 0; i < 10; i++)
+        for(;;)
         {
-            // check that the point is within bounds
-            if (!(spawnPoint.x < -spawnRectangle || spawnPoint.x > spawnRectangle || spawnPoint.y < -spawnRectangle || spawnPoint.y > spawnRectangle))
+            // generate a list of viable spawns
+            _potentialSpawnLocations.Clear();
+            for (int i = 0; i < _potentialSpawnBufferSize; i++)
             {
-                yippee = true;
-                break;
+                _potentialSpawnLocations.Add(new Vector2(Random.Range(-_enemySpawnExtents, _enemySpawnExtents), Random.Range(-_enemySpawnExtents, _enemySpawnExtents)));
             }
-        }
 
-        if (!yippee)
-        {
-            throw new System.Exception("COULD NOT FIND A SUITABLE SPAWN POINT");
-        }
+            // remove any spawn locations that intersect with the player safe zone
+            _potentialSpawnLocations.RemoveAll(spawnLocation => (
+                    spawnLocation.x > -_playerSafeExtents.x + _playerTransform.position.x && spawnLocation.x < _playerSafeExtents.x + _playerTransform.position.x &&
+                    spawnLocation.y > -_playerSafeExtents.y + _playerTransform.position.z && spawnLocation.y < _playerSafeExtents.y + _playerTransform.position.z
+                )
+            );
 
-        return spawnPoint;
+            Debug.Assert(_potentialSpawnLocations.Count == 0, "Error: As unlikely as it is, every potential spawn was inside the player safe zone...");
+
+            yield return new WaitForSeconds(_potentialSpawnRefreshFrequency);
+        }
     }
 
     IEnumerator SpawnEnemies()
@@ -49,61 +54,12 @@ public class EnemyFollowSpawner : MonoBehaviour
         for (; ; )
         {
             // spawn 10 enemies randomly in the radius
-            for (var i = 0; i < numberOfEnemies; i++)
+            for (var i = 0; i < _numberOfEnemies; i++)
             {
-                try
-                {
-                    Vector2 spawnPoint = GetSpawnPoint();
-                    EnemyManager.Instance.AddNewRandomEnemy(spawnPoint);
-                }
-                catch (System.Exception e)
-                {
-                    Debug.LogException(e, this);
-                }
-                
+                Vector2 spawnPoint = _potentialSpawnLocations[Random.Range(0, _potentialSpawnLocations.Count)];
+                EnemyManager.Instance.AddNewRandomEnemy(spawnPoint);
             }
-            yield return new WaitForSeconds(spawnFrequency);
+            yield return new WaitForSeconds(_spawnFrequency);
         }
     }
 }
-
-#if UNITY_EDITOR
-[CustomEditor(typeof(EnemyFollowSpawner))]
-public class EnemyFollowSpawnerEditor : Editor
-{
-    [DrawGizmo(GizmoType.Selected | GizmoType.NonSelected)]
-    static void DrawGizmosSelected(EnemyFollowSpawner scr, GizmoType gizmoType)
-    {
-        //Gizmos.DrawCube
-    }
-
-    private void OnSceneGUI()
-    {
-        var t = target as EnemyFollowSpawner;
-
-        // draw enemy spawn rectangle
-        float spawnRectSize = t.spawnRectangle;
-        Vector3[] spawnRectVerts = {
-            new Vector3(-spawnRectSize, 0f, spawnRectSize),
-            new Vector3(spawnRectSize, 0f, spawnRectSize),
-            new Vector3(spawnRectSize, 0f, -spawnRectSize),
-            new Vector3(-spawnRectSize, 0f, -spawnRectSize)
-        };
-
-        Color spawnRectFillColor = new Color(1.0f, 0.0f, 0.0f, 0.1f);
-        Handles.DrawSolidRectangleWithOutline(spawnRectVerts, spawnRectFillColor, Color.red);
-
-        // draw the safe rectangle
-        float safeRectSize = t.playerSafeRectangle;
-        Vector3[] safeRectVerts = {
-            new Vector3(-safeRectSize, 0f, safeRectSize),
-            new Vector3(safeRectSize, 0f, safeRectSize),
-            new Vector3(safeRectSize, 0f, -safeRectSize),
-            new Vector3(-safeRectSize, 0f, -safeRectSize)
-        };
-
-        Color safeRectFillColor = new Color(0.0f, 1.0f, 0.0f, 0.1f);
-        Handles.DrawSolidRectangleWithOutline(safeRectVerts, safeRectFillColor, Color.green);
-    }
-}
-#endif

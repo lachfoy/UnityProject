@@ -3,27 +3,6 @@
     "dependencyTypeInfos": [
         {
             "userAdded": false,
-            "type": "UnityEngine.AnimationClip",
-            "ignore": false,
-            "defaultInstantiationMode": 0,
-            "supportsModification": true
-        },
-        {
-            "userAdded": false,
-            "type": "UnityEditor.Animations.AnimatorController",
-            "ignore": false,
-            "defaultInstantiationMode": 0,
-            "supportsModification": true
-        },
-        {
-            "userAdded": false,
-            "type": "UnityEngine.AnimatorOverrideController",
-            "ignore": false,
-            "defaultInstantiationMode": 0,
-            "supportsModification": true
-        },
-        {
-            "userAdded": false,
             "type": "UnityEditor.Audio.AudioMixerController",
             "ignore": false,
             "defaultInstantiationMode": 0,

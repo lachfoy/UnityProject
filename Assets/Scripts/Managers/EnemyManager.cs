@@ -6,6 +6,7 @@ public class EnemyManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _enemyPrefabs;
     [SerializeField] private List<GameObject> _enemies;
+    [SerializeField] private int _maxEnemies = 500;
     private Transform _playerTransform;
     private int _enemiesKilled = 0;
     public int EnemiesKilled => _enemiesKilled;
@@ -39,7 +40,7 @@ public class EnemyManager : MonoBehaviour
     // MAKE ADDING NEW ENEMIES GENERIC!!! PLES
     public void AddNewRandomEnemy(Vector2 position)
     {
-        if (_playerTransform)
+        if (_playerTransform && _enemies.Count < _maxEnemies)
         {
             int enemyChoice = Random.Range(0, _enemyPrefabs.Count);
             GameObject enemy = Instantiate(_enemyPrefabs[enemyChoice], new Vector3(position.x, _enemyPrefabs[enemyChoice].transform.localScale.y * 0.5f, position.y), Quaternion.identity);
@@ -49,7 +50,10 @@ public class EnemyManager : MonoBehaviour
 
     public void AddEnemy(GameObject enemy)
     {
-        _enemies.Add(enemy);
+        if (_playerTransform && _enemies.Count < _maxEnemies)
+        {
+            _enemies.Add(enemy);
+        }
     }
 
     public void RemoveEnemy(GameObject enemy)

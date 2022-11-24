@@ -24,7 +24,7 @@ public class UiManager : MonoBehaviour
         damageNumber.GetComponent<Text>().color = damageNumberColor;
         //damageNumber.GetComponent<Text>().fontSize = isCrit ? 32 : 16; // make the font bigger if its a crit
 
-        float textScale = isCrit ? 1.0f : 1.5f;
+        float textScale = isCrit ? 1.0f : 1.2f;
         damageNumber.GetComponent<RectTransform>().localScale = new Vector3(textScale, textScale, textScale);
     }
 

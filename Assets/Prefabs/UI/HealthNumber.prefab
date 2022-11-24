@@ -93,5 +93,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.1
-  fadeSpeed: 1
+  fadeSpeed: 2
   worldPosition: {x: 0, y: 0, z: 0}
